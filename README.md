@@ -30,3 +30,7 @@ Visual Studio 2022 is supported through `vs2022-x64`. Standalone builds fetch th
 Use `sqlite-viewer.exe --showcase` for a populated temporary demonstration. The test suite covers schema loading, bounded queries, write rejection, multiple-statement rejection, CSV export, identifier quoting, and GUI population.
 
 The application never modifies the opened database.
+
+## Download
+
+Download the versioned `windows-x64-portable.zip` from [GitHub Releases](https://github.com/mwfl/sqlite-viewer/releases), verify it with the accompanying SHA-256 file, and extract it anywhere. SQLite is provided by Windows, so no installer or bundled database runtime is required.

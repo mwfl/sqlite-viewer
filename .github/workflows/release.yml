@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure (Visual Studio 2022 x64)
+        run: cmake --preset vs2022-x64
+      - name: Build
+        run: cmake --build --preset vs2022-x64-release --parallel 2
+      - name: Test
+        run: ctest --test-dir build/vs2022-x64 -C Release --output-on-failure
+      - name: Package portable app
+        shell: pwsh
+        run: |
+          $archive = "sqlite-viewer-$env:GITHUB_REF_NAME-windows-x64-portable.zip"
+          cmake --install build/vs2022-x64 --config Release --prefix package --component Application
+          Compress-Archive -Path package/* -DestinationPath $archive
+          (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant() + "  " + $archive |
+            Set-Content "$archive.sha256"
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $archive = "sqlite-viewer-$env:GITHUB_REF_NAME-windows-x64-portable.zip"
+          gh release create $env:GITHUB_REF_NAME $archive "$archive.sha256" --verify-tag --generate-notes --title "MWFL SQLite Viewer $env:GITHUB_REF_NAME"
