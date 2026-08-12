@@ -1,0 +1,5 @@
+/build/
+/.vs/
+/package/
+/*.zip
+*.user
