@@ -25,7 +25,7 @@ cmake --build --preset vs2026-x64-release
 ctest --preset vs2026-x64-release
 ```
 
-Visual Studio 2022 is supported through `vs2022-x64`. Standalone builds fetch the pinned mwfl v0.1.0 source. SQLite itself is provided by `winsqlite3.dll` in Windows.
+Visual Studio 2022 is supported through `vs2022-x64`. Standalone builds fetch the pinned mwfl v0.1.2 source. SQLite itself is provided by `winsqlite3.dll` in Windows.
 
 Use `sqlite-viewer.exe --showcase` for a populated temporary demonstration. The test suite covers schema loading, bounded queries, write rejection, multiple-statement rejection, CSV export, identifier quoting, and GUI population.
 
