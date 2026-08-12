@@ -1,6 +1,7 @@
 #include <mwfl/mwfl.h>
 
 #include "sqlite_database.h"
+#include "resource.h"
 
 #include <winsqlite/winsqlite3.h>
 
@@ -104,7 +105,7 @@ public:
                                     mwfl::Stretch()),
                            mwfl::Stretch())
                       .Add(status_, mwfl::Auto()));
-        mwfl::ApplyWindowAppearance(GetHwnd());
+        SetAppearance({});
 
         if (!g_self_test && !g_showcase) {
             mwfl::SavedWindowPlacement saved;
@@ -152,10 +153,6 @@ public:
         if (event.id == WM_DROPFILES) {
             const auto files = mwfl::ReadDroppedFiles(reinterpret_cast<HDROP>(event.wparam));
             if (!files.empty()) OpenPath(files.front());
-            return mwfl::EventResult::Handled();
-        }
-        if (event.id == WM_THEMECHANGED || event.id == WM_SETTINGCHANGE) {
-            mwfl::ApplyWindowAppearance(GetHwnd());
             return mwfl::EventResult::Handled();
         }
         if (event.id == kSelfTest) {
@@ -346,9 +343,12 @@ private:
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int show) {
     g_self_test = wcsstr(::GetCommandLineW(), L"--self-test") != nullptr;
     g_showcase = wcsstr(::GetCommandLineW(), L"--showcase") != nullptr;
+    const HICON icon = ::LoadIconW(instance, MAKEINTRESOURCEW(IDI_SQLITE_VIEWER));
     return mwfl::RunApplication<SQLiteViewerWindow>(
         instance, show,
         {.title = L"MWFL SQLite Viewer",
          .initial_bounds = {{40.0_dip, 40.0_dip}, {1180.0_dip, 760.0_dip}},
-         .use_default_bounds = false});
+         .use_default_bounds = false,
+         .icon = icon,
+         .small_icon = icon});
 }

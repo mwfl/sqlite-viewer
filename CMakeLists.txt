@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(sqlite_viewer VERSION 0.1.0 LANGUAGES CXX)
+project(sqlite_viewer VERSION 0.1.1 LANGUAGES CXX)
 
 include(FetchContent)
 option(SQLITE_VIEWER_USE_LOCAL_MWFL "Use a local mwfl checkout" OFF)
@@ -9,11 +9,13 @@ set(MWFL_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 if(SQLITE_VIEWER_USE_LOCAL_MWFL)
     add_subdirectory("${SQLITE_VIEWER_MWFL_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/mwfl")
 else()
-    FetchContent_Declare(mwfl GIT_REPOSITORY https://github.com/mwfl/mwfl.git GIT_TAG v0.1.0)
+    FetchContent_Declare(mwfl GIT_REPOSITORY https://github.com/mwfl/mwfl.git GIT_TAG v0.1.2)
     FetchContent_MakeAvailable(mwfl)
 endif()
 
-add_executable(sqlite-viewer WIN32 main.cpp sqlite_database.cpp sqlite_database.h app.manifest)
+add_executable(sqlite-viewer WIN32
+    main.cpp sqlite_database.cpp sqlite_database.h
+    sqlite_viewer.rc resource.h app-icon.ico app.manifest)
 target_link_libraries(sqlite-viewer PRIVATE mwfl::mwfl winsqlite3)
 target_compile_features(sqlite-viewer PRIVATE cxx_std_20)
 target_compile_definitions(sqlite-viewer PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
