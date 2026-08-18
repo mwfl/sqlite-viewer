@@ -14,11 +14,11 @@ else()
 endif()
 
 add_executable(sqlite-viewer WIN32
-    main.cpp sqlite_database.cpp sqlite_database.h
+    main.cpp update_checker.cpp update_checker.h sqlite_database.cpp sqlite_database.h
     sqlite_viewer.rc resource.h app-icon.ico app.manifest)
-target_link_libraries(sqlite-viewer PRIVATE mwfl::ui winsqlite3)
+target_link_libraries(sqlite-viewer PRIVATE mwfl::ui winsqlite3 winhttp comctl32 advapi32 shell32)
 target_compile_features(sqlite-viewer PRIVATE cxx_std_20)
-target_compile_definitions(sqlite-viewer PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+target_compile_definitions(sqlite-viewer PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX MWFL_APP_VERSION=L\"${PROJECT_VERSION}\")
 if(MSVC)
     target_compile_options(sqlite-viewer PRIVATE /W4 /WX /permissive- /EHsc /utf-8)
 endif()

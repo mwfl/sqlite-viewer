@@ -2,6 +2,7 @@
 
 #include "sqlite_database.h"
 #include "resource.h"
+#include "update_checker.h"
 
 #include <winsqlite/winsqlite3.h>
 
@@ -14,6 +15,8 @@
 using mwfl::operator""_dip;
 
 namespace {
+
+mwfl_examples::UpdateChecker g_update_checker;
 
 constexpr mwfl::ControlId kOpen{1700};
 constexpr mwfl::ControlId kRun{1701};
@@ -119,6 +122,10 @@ public:
             if (g_self_test && !::PostMessageW(GetHwnd(), kSelfTest, 0, 0))
                 throw std::runtime_error("post SQLite self-test");
         }
+        g_update_checker.Attach(
+            GetHwnd(), {L"MWFL SQLite Viewer", L"sqlite-viewer", MWFL_APP_VERSION,
+                        L"Software\\mwfl\\Examples\\SQLiteViewer\\Updates"},
+            !g_self_test && !g_showcase);
     }
 
     mwfl::EventResult OnCommand(const mwfl::CommandEvent& event) override {

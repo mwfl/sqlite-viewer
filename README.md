@@ -34,3 +34,7 @@ The application never modifies the opened database.
 ## Download
 
 Download the versioned `windows-x64-portable.zip` from [GitHub Releases](https://github.com/mwfl/sqlite-viewer/releases), verify it with the accompanying SHA-256 file, and extract it anywhere. SQLite is provided by Windows, so no installer or bundled database runtime is required.
+
+## Update checks
+
+The app checks the latest stable GitHub Release at most once per day. Use **Settings > Automatically Check for Updates** to disable or re-enable checks, or **Check for Updates** to run one manually. An available update can open the official Portable release, be deferred for three days or one week, or dismissed until the next day. Replacement is always an explicit download-and-extract action.
