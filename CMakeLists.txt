@@ -9,14 +9,13 @@ set(MWFL_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 if(SQLITE_VIEWER_USE_LOCAL_MWFL)
     add_subdirectory("${SQLITE_VIEWER_MWFL_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/mwfl")
 else()
-    FetchContent_Declare(mwfl GIT_REPOSITORY https://github.com/mwfl/mwfl.git GIT_TAG v0.2.0)
+    FetchContent_Declare(mwfl GIT_REPOSITORY https://github.com/mwfl/mwfl.git GIT_TAG v0.2.1)
     FetchContent_MakeAvailable(mwfl)
 endif()
-
 add_executable(sqlite-viewer WIN32
-    main.cpp update_checker.cpp update_checker.h sqlite_database.cpp sqlite_database.h
+    main.cpp sqlite_database.cpp sqlite_database.h
     sqlite_viewer.rc resource.h app-icon.ico app.manifest)
-target_link_libraries(sqlite-viewer PRIVATE mwfl::ui winsqlite3 winhttp comctl32 advapi32 shell32)
+target_link_libraries(sqlite-viewer PRIVATE mwfl::app winsqlite3)
 target_compile_features(sqlite-viewer PRIVATE cxx_std_20)
 target_compile_definitions(sqlite-viewer PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX MWFL_APP_VERSION=L\"${PROJECT_VERSION}\")
 if(MSVC)

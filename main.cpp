@@ -2,7 +2,7 @@
 
 #include "sqlite_database.h"
 #include "resource.h"
-#include "update_checker.h"
+#include <mwfl/app_support/update_checker.h>
 
 #include <winsqlite/winsqlite3.h>
 
@@ -16,7 +16,7 @@ using mwfl::operator""_dip;
 
 namespace {
 
-mwfl_examples::UpdateChecker g_update_checker;
+mwfl::app_support::UpdateChecker g_update_checker;
 
 constexpr mwfl::ControlId kOpen{1700};
 constexpr mwfl::ControlId kRun{1701};
