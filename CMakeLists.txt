@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(sqlite_viewer VERSION 0.1.1 LANGUAGES CXX)
+project(sqlite_viewer VERSION 0.1.0 LANGUAGES CXX)
 
 include(FetchContent)
 option(SQLITE_VIEWER_USE_LOCAL_MWFL "Use a local mwfl checkout" OFF)
